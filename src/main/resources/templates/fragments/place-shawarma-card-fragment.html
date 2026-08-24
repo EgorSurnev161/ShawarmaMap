@@ -1,0 +1,21 @@
+<!-- templates/fragments/place-shawarma-card-fragment.html -->
+<div th:fragment="placeCard(place)" class="place-card">
+    <!-- Ссылка на детальную страницу по ID места -->
+    <a th:href="@{'/place/' + ${place.id}}" style="text-decoration: none; color: inherit;">
+        <img src="https://via.placeholder.com/300x180" alt="Shawarma" class="place-img">
+        <div class="place-info">
+            <h3 class="place-title" th:text="${place.name}">Название места</h3>
+            <p class="place-address">
+                <span th:text="${place.city}">Город</span>,
+                <span th:text="${place.address}">Адрес</span>
+            </p>
+            <div class="stats-row">
+                <div>
+                    <span class="likes">👍 [[${place.numberOfLikes}]]</span>
+                    <span class="dislikes">👎 [[${place.numberOfDislikes}]]</span>
+                </div>
+                <small th:text="${#temporals.format(place.createDate, 'dd.MM.yyyy')}">Дата</small>
+            </div>
+        </div>
+    </a>
+</div>

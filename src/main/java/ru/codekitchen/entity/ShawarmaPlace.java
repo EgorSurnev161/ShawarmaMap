@@ -36,19 +36,19 @@ public class ShawarmaPlace {
     private List<Comment> comments;
 
     @Column(name = "date", nullable = false)
-    private LocalDateTime date;
+    private LocalDateTime createDate;
 
     public ShawarmaPlace() {
     }
 
-    public ShawarmaPlace(String name, String address, String city, int numberOfLikes, int numberOfDislikes, User user, LocalDateTime date, List<Comment> comments) {
+    public ShawarmaPlace(String name, String address, String city, int numberOfLikes, int numberOfDislikes, User user, LocalDateTime createDate, List<Comment> comments) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.numberOfLikes = numberOfLikes;
         this.numberOfDislikes = numberOfDislikes;
         this.user = user;
-        this.date = date;
+        this.createDate = createDate;
         this.comments = comments;
     }
 
@@ -116,11 +116,11 @@ public class ShawarmaPlace {
         this.user = user;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getCreateDate() {
+        return createDate;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
     }
 }

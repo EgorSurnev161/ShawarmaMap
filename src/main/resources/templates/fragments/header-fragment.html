@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/fragments/header-fragment.css}">
+</head>
+<body>
+<header th:fragment="header" class="main-header">
+    <div class="header-container">
+        <a href="/" class="logo">🌯 ShawarmaPlace</a>
+        <nav class="nav-links">
+            <a th:href="@{/}">Главная</a>
+            <a href="#">Топ мест</a>
+            <a href="#">Войти</a>
+        </nav>
+    </div>
+</header>
+</body>
+</html>

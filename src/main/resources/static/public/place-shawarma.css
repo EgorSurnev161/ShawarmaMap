@@ -1,0 +1,57 @@
+.container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+
+.place-header {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.place-header h1 { color: #8B0000; margin: 0 0 10px; }
+.full-address { color: #666; font-size: 1.1rem; }
+
+.main-stats { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+.stat-btn {
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.like-btn { background: #e8f5e9; color: #2e7d32; }
+.dislike-btn { background: #ffebee; color: #c62828; }
+
+/* Комментарии */
+.comments-section h2 { border-bottom: 2px solid #8B0000; padding-bottom: 10px; }
+
+.comment-form { margin-bottom: 40px; display: flex; flex-direction: column; gap: 10px; }
+.comment-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: none;
+}
+.btn-send {
+    align-self: flex-end;
+    background: #8B0000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-item {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 5px solid #8B0000;
+}
+.comment-meta { font-size: 0.9rem; margin-bottom: 8px; color: #555; }
+.comment-text { line-height: 1.5; margin: 0; }

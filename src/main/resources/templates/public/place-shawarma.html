@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Детали места - ShawarmaMap</title>
+    <link rel="stylesheet" th:href="@{/fragments/header-fragment.css}">
+    <link rel="stylesheet" th:href="@{/public/place-shawarma.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header-fragment :: header}"></div>
+
+<main class="container">
+    <!-- Верхний блок с информацией -->
+    <section class="place-header">
+        <h1 th:text="${place.name}">Название Шаурмы</h1>
+        <p class="full-address">📍 [[${place.city}]], [[${place.address}]]</p>
+
+        <div class="main-stats">
+            <button class="stat-btn like-btn">👍 [[${place.numberOfLikes}]]</button>
+            <button class="stat-btn dislike-btn">👎 [[${place.numberOfDislikes}]]</button>
+        </div>
+    </section>
+
+    <!-- Секция комментариев -->
+    <section class="comments-section">
+        <h2>Отзывы клиентов</h2>
+
+        <!-- Форма добавления комментария (заглушка) -->
+        <div class="comment-form">
+            <textarea placeholder="Поделитесь своим мнением..."></textarea>
+            <button class="btn-send">Отправить отзыв</button>
+        </div>
+
+        <!-- Список комментариев (заглушки) -->
+        <div class="comments-list">
+            <div class="comment-item">
+                <div class="comment-meta">
+                    <strong>Иван Иванов</strong> • <span>22.08.2023</span>
+                </div>
+                <p class="comment-text">Самый лучший соус в городе! Обязательно вернусь еще раз.</p>
+            </div>
+
+            <div class="comment-item">
+                <div class="comment-meta">
+                    <strong>Марина С.</strong> • <span>20.08.2023</span>
+                </div>
+                <p class="comment-text">Мясо суховато, но порция огромная. На четверочку.</p>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

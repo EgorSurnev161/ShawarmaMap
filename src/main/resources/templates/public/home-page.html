@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная - Shawarma Guide</title>
+    <!-- Подключаем стили -->
+    <link rel="stylesheet" th:href="@{/public/home-page.css}">
+    <link rel="stylesheet" th:href="@{/fragments/header-fragment.css}">
+    <link rel="stylesheet" th:href="@{/fragments/place-shawarma-card-fragment.css}">
+</head>
+<body>
+
+<!-- Вставляем Хедер -->
+<div th:replace="~{fragments/header-fragment :: header}"></div>
+
+<section class="hero-section">
+    <h1>Лучшая шаурма твоего города</h1>
+    <p>Честные отзывы от любителей сочного мяса</p>
+</section>
+
+<main class="content-container">
+    <div class="places-grid">
+
+        <div class="places-grid">
+            <!-- Цикл по списку places из модели -->
+            <div th:each="p : ${places}">
+                <div th:replace="~{fragments/place-shawarma-card-fragment :: placeCard(place=${p})}"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
