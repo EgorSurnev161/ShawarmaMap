@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация - ShawarmaMap</title>
+    <link rel="stylesheet" th:href="@{/css/fragments/header-fragment.css}">
+    <link rel="stylesheet" th:href="@{/css/public/authorization/authorization-page.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header-fragment :: header}"></div>
+
+<div class="auth-container">
+    <form class="auth-card" th:action="@{/registration}" method="post">
+        <h2>Регистрация 🥙</h2>
+        <p class="subtitle">Присоединяйтесь к сообществу любителей шаурмы</p>
+
+        <div class="form-group">
+            <label for="name">Ваше имя</label>
+            <input type="text" id="name" name="name" placeholder="Иван" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Придумайте пароль</label>
+            <input type="password" id="password" name="password" placeholder="Мин. 8 символов" required minlength="8">
+        </div>
+
+        <button type="submit" class="btn-auth">Зарегистрироваться</button>
+
+        <div class="auth-footer">
+            <span>Уже есть аккаунт?</span>
+            <a th:href="@{/login}">Войти</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

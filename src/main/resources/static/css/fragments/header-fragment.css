@@ -35,3 +35,33 @@
 }
 
 .nav-links a:hover { opacity: 0.8; }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-account {
+    background-color: #f4f4f4;
+    color: #8B0000 !important;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.btn-logout {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.btn-logout:hover {
+    background: white;
+    color: #8B0000;
+}

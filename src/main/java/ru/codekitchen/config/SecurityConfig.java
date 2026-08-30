@@ -1,32 +1,75 @@
 package ru.codekitchen.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.codekitchen.entity.User;
+import ru.codekitchen.entity.UserRole;
+import ru.codekitchen.repository.UserRepository;
+
+import java.util.Collections;
+import java.util.Set;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private UserRepository userRepository;
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   UserRepository userRepository) {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**","/fragments/**", "/private/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
-                        .requestMatchers("/", "/login", "/registration", "/error","/place/**", "/add-place-page").permitAll()
+                        .requestMatchers("/", "/login", "/registration", "/error", "/place/**").permitAll()
+
+                        .requestMatchers( "/add-place-page","/account").hasAnyRole(UserRole.USER.name())
 
                         .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login") // Укажем, что мы хотим свою страницу логина
-                        .permitAll()
-                );
+                .formLogin(form -> form.loginPage("/login")
+                        .usernameParameter("email")
+                        .defaultSuccessUrl("/account")
+                        .permitAll())
+                .logout(logout -> logout.logoutUrl("/logout").permitAll());
+
         return http.build();
 
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                User user = userRepository
+                        .findByEmailIgnoreCase(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User with email = " +  username + " not found"));
+                Set<SimpleGrantedAuthority> roles = Collections.singleton(user.getRole().toAuthority());
+                return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
+            }
+        };
     }
 
 

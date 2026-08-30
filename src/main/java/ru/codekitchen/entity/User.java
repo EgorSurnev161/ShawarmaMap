@@ -22,6 +22,9 @@ public class User {
     @Column(name = "password", nullable = false,  length = 60)
     private  String password;
 
+    @Column(name = "role", nullable = false)
+    private UserRole role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
@@ -31,12 +34,20 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String password, List<Comment> comments, List<ShawarmaPlace> shawarmaPlaces) {
+    public User(String name, String email, String password, UserRole role, List<Comment> comments, List<ShawarmaPlace> shawarmaPlaces) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
         this.comments = comments;
         this.shawarmaPlaces = shawarmaPlaces;
+    }
+
+    public User(String name, String email, String password, UserRole role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -69,6 +80,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public List<Comment> getComments() {

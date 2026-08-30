@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.codekitchen.entity.ShawarmaPlace;
+import ru.codekitchen.entity.User;
 import ru.codekitchen.service.ShawarmaPlaceService;
+import ru.codekitchen.service.UserService;
 
 import java.time.LocalDateTime;
 
@@ -14,18 +16,17 @@ import java.time.LocalDateTime;
 public class PrivateAccountController {
 
     private final ShawarmaPlaceService shawarmaPlaceService;
+    private final UserService userService;
 
     @Autowired
-    public PrivateAccountController(ShawarmaPlaceService shawarmaPlaceService) {
+    public PrivateAccountController(ShawarmaPlaceService shawarmaPlaceService, UserService userService) {
         this.shawarmaPlaceService = shawarmaPlaceService;
+        this.userService = userService;
     }
 
     @GetMapping("/add-place-page")
     public String showAddPlace(Model model) {
-
         model.addAttribute("newPlace", new ShawarmaPlace());
-
-
         return "private/add-place-page";
     }
 
@@ -40,6 +41,14 @@ public class PrivateAccountController {
         shawarmaPlaceService.saveShawarmaPlace(place);
         return "redirect:/";
     }
+
+    @GetMapping("/account")
+    public String getAccount(Model model) {
+        User currentUser = userService.getCurrentUser();
+        model.addAttribute("currentUser", currentUser);
+        return "private/account-page";
+    }
+
 
 
 }

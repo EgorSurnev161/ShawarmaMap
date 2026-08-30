@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой Аккаунт - ShawarmaMap</title>
+    <!-- Пути к стилям как в твоей структуре -->
+    <link rel="stylesheet" th:href="@{/css/fragments/header-fragment.css}">
+    <link rel="stylesheet" th:href="@{/css/fragments/place-shawarma-card-fragment.css}">
+    <link rel="stylesheet" th:href="@{/css/private/account-page.css}">
+</head>
+<body>
+<!-- Вставка хедера -->
+<div th:replace="~{fragments/header-fragment :: header}"></div>
+
+<main class="account-container">
+
+    <!-- Карточка профиля -->
+    <section class="profile-header card">
+        <div class="profile-avatar">
+            <!-- Берем первую букву имени -->
+            <span th:text="${#strings.substring(currentUser.name, 0, 1)}">U</span>
+        </div>
+
+        <div class="profile-info">
+            <h1 th:text="${currentUser.name}">Имя пользователя</h1>
+            <p class="user-email">✉️ <span th:text="${currentUser.email}">mail@example.com</span></p>
+        </div>
+
+        <div class="profile-stats">
+            <div class="stat-item">
+                <span class="stat-value" th:text="${#lists.size(currentUser.shawarmaPlaces)}">0</span>
+                <span class="stat-label">Мест добавлено</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" th:text="${#lists.size(currentUser.comments)}">0</span>
+                <span class="stat-label">Отзывов</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Список добавленных мест -->
+    <section class="user-content">
+        <div class="section-header">
+            <h2>📍 Мои заведения</h2>
+            <a th:href="@{/add-place-page}" class="btn-small-link">+ Добавить новое</a>
+        </div>
+
+        <!-- Если список мест НЕ пуст -->
+        <div class="places-grid" th:if="${not #lists.isEmpty(currentUser.shawarmaPlaces)}">
+            <div th:each="place : ${currentUser.shawarmaPlaces}">
+                <!-- Передаем объект place во фрагмент карточки -->
+                <div th:replace="~{fragments/place-shawarma-card-fragment :: placeCard(place=${place})}"></div>
+            </div>
+        </div>
+
+        <!-- Если мест нет -->
+        <div class="empty-state" th:if="${#lists.isEmpty(currentUser.shawarmaPlaces)}">
+            <p>Вы пока не добавили ни одного места на карту.</p>
+        </div>
+    </section>
+
+    <!-- Список последних комментариев пользователя -->
+    <section class="user-content">
+        <div class="section-header">
+            <h2>💬 Мои последние отзывы</h2>
+        </div>
+
+        <div class="comments-history" th:if="${not #lists.isEmpty(currentUser.comments)}">
+            <div class="mini-comment-card" th:each="comment : ${currentUser.comments}">
+                <div class="comment-place-name">
+                    <a th:href="@{'/place/' + ${comment.shawarmaPlace.id}}" th:text="${comment.shawarmaPlace.name}">Название места</a>
+                </div>
+                <p class="comment-text-preview" th:text="${comment.text}">Текст отзыва...</p>
+            </div>
+        </div>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(currentUser.comments)}">
+            <p>Вы еще не оставляли отзывов.</p>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>

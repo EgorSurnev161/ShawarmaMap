@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <link rel="stylesheet" th:href="@{/fragments/header-fragment.css}">
+    <link rel="stylesheet" th:href="@{/css/fragments/header-fragment.css}">
 </head>
 <body>
-<!-- templates/fragments/header-fragment.html -->
 <header th:fragment="header" class="main-header">
     <div class="header-container">
         <a th:href="@{/}" class="logo">🌯 ShaurmaMap</a>
         <nav class="nav-links">
             <a th:href="@{/}">Главная</a>
-            <!-- Новая кнопка -->
-            <a th:href="@{/add-place-page}" class="btn-add">+ Добавить место</a>
-            <a href="#">Войти</a>
+
+            <!-- Кнопка "Добавить место" видна только авторизованным пользователям (по желанию) -->
+            <!-- Если хочешь, чтобы видели все, просто убери sec:authorize -->
+            <a th:href="@{/add-place-page}" class="btn-add" sec:authorize="isAuthenticated()">+ Добавить место</a>
+
+            <!-- Если пользователь НЕ авторизован (Anonymous) -->
+            <a th:href="@{/login}" sec:authorize="isAnonymous()">Войти</a>
+
+            <!-- Если пользователь авторизован (Authenticated) -->
+            <div class="user-menu" sec:authorize="isAuthenticated()">
+                <a th:href="@{/account}" class="btn-account">Аккаунт</a>
+                <!-- Дополнительно можно добавить кнопку Выход -->
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn-logout">Выйти</button>
+                </form>
+            </div>
         </nav>
     </div>
 </header>
