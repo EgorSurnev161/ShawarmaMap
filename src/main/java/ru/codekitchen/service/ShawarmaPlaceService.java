@@ -26,6 +26,10 @@ public class ShawarmaPlaceService {
         return shawarmaPlaceRepository.findAll();
     }
 
+    public void saveShawarmaPlace(ShawarmaPlace shawarmaPlace) {
+        shawarmaPlaceRepository.save(shawarmaPlace);
+    }
+
 
 
 

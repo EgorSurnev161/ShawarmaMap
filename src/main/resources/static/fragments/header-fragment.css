@@ -22,5 +22,16 @@
     margin-left: 20px;
     transition: opacity 0.3s;
 }
+.btn-add {
+    background-color: white;
+    color: #8B0000 !important;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.btn-add:hover {
+    background-color: #ffdada;
+}
 
 .nav-links a:hover { opacity: 0.8; }
