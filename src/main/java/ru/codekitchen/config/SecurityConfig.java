@@ -40,7 +40,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/", "/login", "/registration", "/error", "/place/**").permitAll()
 
-                        .requestMatchers( "/add-place-page","/account").hasAnyRole(UserRole.USER.name())
+                        .requestMatchers( "/account/**").hasAnyRole(UserRole.USER.name())
 
                         .anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login")

@@ -9,6 +9,5 @@ import ru.codekitchen.entity.ShawarmaPlace;
 public interface ShawarmaPlaceRepository extends JpaRepository<ShawarmaPlace, Integer> {
 
 
-
 }
 

@@ -1,6 +1,7 @@
 package ru.codekitchen.entity;
 
 import jakarta.persistence.*;
+import ru.codekitchen.entity.dto.ShawarmaPlaceDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,6 +51,18 @@ public class ShawarmaPlace {
         this.user = user;
         this.createDate = createDate;
         this.comments = comments;
+    }
+
+    public static ShawarmaPlace toEntityNew(ShawarmaPlaceDto dto, User user) {
+        ShawarmaPlace shawarmaPlace = new ShawarmaPlace();
+        shawarmaPlace.setName(dto.getName());
+        shawarmaPlace.setAddress(dto.getAddress());
+        shawarmaPlace.setCity(dto.getCity());
+        shawarmaPlace.setNumberOfLikes(0);
+        shawarmaPlace.setNumberOfDislikes(0);
+        shawarmaPlace.setUser(user);
+        shawarmaPlace.setCreateDate(LocalDateTime.now());
+        return shawarmaPlace;
     }
 
     public List<Comment> getComments() {

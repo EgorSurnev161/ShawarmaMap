@@ -42,14 +42,14 @@
     <section class="user-content">
         <div class="section-header">
             <h2>📍 Мои заведения</h2>
-            <a th:href="@{/add-place-page}" class="btn-small-link">+ Добавить новое</a>
+            <a th:href="@{/account/add-place}" class="btn-small-link">+ Добавить новое</a>
         </div>
 
         <!-- Если список мест НЕ пуст -->
         <div class="places-grid" th:if="${not #lists.isEmpty(currentUser.shawarmaPlaces)}">
             <div th:each="place : ${currentUser.shawarmaPlaces}">
-                <!-- Передаем объект place во фрагмент карточки -->
-                <div th:replace="~{fragments/place-shawarma-card-fragment :: placeCard(place=${place})}"></div>
+                <!-- Теперь передаем два параметра -->
+                <div th:replace="~{fragments/place-shawarma-card-fragment :: placeCard(place=${place}, showDelete=true)}"></div>
             </div>
         </div>
 

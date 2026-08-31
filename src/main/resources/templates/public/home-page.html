@@ -24,7 +24,7 @@
         <div class="places-grid">
             <!-- Цикл по списку places из модели -->
             <div th:each="p : ${places}">
-                <div th:replace="~{fragments/place-shawarma-card-fragment :: placeCard(place=${p})}"></div>
+                <div th:replace="~{fragments/place-shawarma-card-fragment :: placeCard(place=${p}, showDelete=false)}"></div>
             </div>
         </div>
     </div>

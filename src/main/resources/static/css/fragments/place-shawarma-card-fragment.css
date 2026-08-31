@@ -36,3 +36,55 @@
 
 .likes { color: green; font-weight: bold; }
 .dislikes { color: darkred; font-weight: bold; }
+/* Контейнер для кнопок внизу карточки */
+.card-actions {
+    display: flex;
+    gap: 10px; /* Отступ между кнопками */
+    padding: 10px;
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+/* Общие стили для кнопок действий */
+.btn-edit-card, .btn-delete-card {
+    flex: 1; /* Кнопки будут одинаковой ширины */
+    text-align: center;
+    padding: 8px 5px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+/* Кнопка Редактировать (Синяя или Желтая) */
+.btn-edit-card {
+    background: #f39c12; /* Оранжевый/Золотой - стандарт для редактирования */
+    color: white;
+    border: 1px solid #e67e22;
+}
+
+.btn-edit-card:hover {
+    background: #e67e22;
+}
+
+/* Кнопка Удалить (Красная) */
+.btn-delete-card {
+    background: transparent;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.btn-delete-card:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Убираем лишние отступы у формы */
+.delete-form {
+    flex: 1;
+    margin: 0;
+}

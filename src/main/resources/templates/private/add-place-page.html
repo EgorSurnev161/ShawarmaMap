@@ -14,7 +14,7 @@
         <h1>Добавить новую точку</h1>
         <p>Знаешь место, где готовят божественную шаурму? Поделись с другими!</p>
 
-        <form th:action="@{/add-place-page}" th:object="${newPlace}" method="post">
+        <form th:action="@{/account/add-place}" th:object="${newPlace}" method="post">
             <div class="form-group">
                 <label>Название заведения</label>
                 <input type="text" th:field="*{name}" placeholder="Например: У Заура" required maxlength="50">

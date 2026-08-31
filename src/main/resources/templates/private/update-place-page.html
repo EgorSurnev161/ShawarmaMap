@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать место - ShawarmaMap</title>
+    <link rel="stylesheet" th:href="@{/css/fragments/header-fragment.css}">
+    <!-- Используем тот же CSS, что и для страницы добавления -->
+    <link rel="stylesheet" th:href="@{/css/public/add-place-page.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header-fragment :: header}"></div>
+
+<main class="form-container">
+    <div class="card">
+        <h1>Редактировать точку</h1>
+        <p>Измените данные о заведении ниже.</p>
+
+        <!-- Объект в контроллере должен называться placeDto -->
+        <form th:action="@{/account/update-place}" th:object="${placeDto}" method="post">
+
+            <!-- Скрытое поле для ID (обязательно!) -->
+            <input type="hidden" th:field="*{id}">
+
+            <div class="form-group">
+                <label>Название заведения</label>
+                <input type="text" th:field="*{name}" placeholder="Название" required maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label>Город</label>
+                <input type="text" th:field="*{city}" placeholder="Город" required maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label>Адрес</label>
+                <input type="text" th:field="*{address}" placeholder="Адрес" required maxlength="100">
+            </div>
+
+            <button type="submit" class="btn-save">Сохранить изменения</button>
+            <div style="text-align: center; margin-top: 15px;">
+                <a th:href="@{/account}" style="color: #666; text-decoration: none; font-size: 14px;">Отмена</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -13,7 +13,7 @@
 
             <!-- Кнопка "Добавить место" видна только авторизованным пользователям (по желанию) -->
             <!-- Если хочешь, чтобы видели все, просто убери sec:authorize -->
-            <a th:href="@{/add-place-page}" class="btn-add" sec:authorize="isAuthenticated()">+ Добавить место</a>
+            <a th:href="@{/account/add-place}" class="btn-add" sec:authorize="isAuthenticated()">+ Добавить место</a>
 
             <!-- Если пользователь НЕ авторизован (Anonymous) -->
             <a th:href="@{/login}" sec:authorize="isAnonymous()">Войти</a>

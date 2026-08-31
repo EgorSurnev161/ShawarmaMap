@@ -18,4 +18,17 @@
             </div>
         </div>
     </a>
+    <div th:if="${showDelete}" class="card-actions">
+        <!-- Кнопка Редактировать -->
+        <a th:href="@{'/account/update-place/' + ${place.id}}" class="btn-edit-card">
+            <i class="fas fa-edit"></i> Редактировать
+        </a>
+        <!-- Форма удаления -->
+        <form th:action="@{/account/delete-place}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить это место?');">
+            <input type="hidden" name="id" th:value="${place.id}">
+            <button type="submit" class="btn-delete-card" title="Удалить">
+                <i class="fas fa-trash"></i> Удалить
+            </button>
+        </form>
+    </div>
 </div>
