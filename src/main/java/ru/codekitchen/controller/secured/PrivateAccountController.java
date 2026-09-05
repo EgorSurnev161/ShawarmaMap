@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.codekitchen.entity.ShawarmaPlace;
 import ru.codekitchen.entity.User;
+import ru.codekitchen.entity.UserRole;
 import ru.codekitchen.entity.dto.ShawarmaPlaceDto;
 import ru.codekitchen.service.ShawarmaPlaceService;
 import ru.codekitchen.service.UserService;
@@ -58,9 +59,12 @@ public class PrivateAccountController {
 
     @GetMapping("/update-place/{id}")
     public String updatePlace(@PathVariable int id, Model model) {
+        User currentUser = userService.getCurrentUser();
         ShawarmaPlace place = shawarmaPlaceService.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found"));
-
+        if (currentUser.getId() != place.getUser().getId() && currentUser.getRole() != UserRole.ADMIN) {
+            return "redirect:/account";
+        }
         model.addAttribute("placeDto", ShawarmaPlaceDto.toDto(place));
         return "private/update-place-page";
 

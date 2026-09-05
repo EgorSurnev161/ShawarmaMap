@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Мой Аккаунт - ShawarmaMap</title>
@@ -24,6 +24,9 @@
         <div class="profile-info">
             <h1 th:text="${currentUser.name}">Имя пользователя</h1>
             <p class="user-email">✉️ <span th:text="${currentUser.email}">mail@example.com</span></p>
+            <div sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" style="margin-top: 10px;">
+                <a th:href="@{/admin}" class="btn-go-admin">Перейти в панель управления</a>
+            </div>
         </div>
 
         <div class="profile-stats">

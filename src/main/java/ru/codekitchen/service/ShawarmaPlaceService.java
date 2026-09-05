@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.codekitchen.entity.ShawarmaPlace;
 import ru.codekitchen.entity.User;
+import ru.codekitchen.entity.UserRole;
 import ru.codekitchen.entity.dto.ShawarmaPlaceDto;
 import ru.codekitchen.repository.ShawarmaPlaceRepository;
 
@@ -42,7 +43,7 @@ public class ShawarmaPlaceService {
             throw new EntityNotFoundException("ShawarmaPlace not found with id " + id);
         }
         ShawarmaPlace place = shawarmaPlaceOpt.get();
-        if (place.getUser().getId() != user.getId()) {
+        if (place.getUser().getId() != user.getId() && user.getRole() == UserRole.USER) {
             throw new EntityNotFoundException("The ID did not match");
         }
         shawarmaPlaceRepository.deleteById(id);
@@ -56,7 +57,7 @@ public class ShawarmaPlaceService {
         }
         ShawarmaPlace place = shawarmaPlaceOpt.get();
 
-        if (place.getUser().getId() != user.getId()) {
+        if (place.getUser().getId() != user.getId() && user.getRole() == UserRole.USER) {
             throw new EntityNotFoundException("The ID did not match");
         }
 
@@ -69,6 +70,9 @@ public class ShawarmaPlaceService {
 
     }
 
+    public List<ShawarmaPlace> getPlacesByOneUserRole(Iterable<UserRole> roles) {
+        return shawarmaPlaceRepository.findAllByUserRoleIn(roles);
+    }
 
 
 

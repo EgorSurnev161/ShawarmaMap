@@ -40,7 +40,11 @@ public class SecurityConfig {
 
                         .requestMatchers("/", "/login", "/registration", "/error", "/place/**").permitAll()
 
-                        .requestMatchers( "/account/**").hasAnyRole(UserRole.USER.name())
+                        .requestMatchers( "/account/**").hasAnyRole(UserRole.USER.name(), UserRole.ADMIN.name(), UserRole.SUPER_ADMIN.name())
+
+                        .requestMatchers( "/admin/**").hasAnyRole(UserRole.ADMIN.name(),UserRole.SUPER_ADMIN.name())
+
+                        .requestMatchers("/super-admin/**").hasAnyRole(UserRole.SUPER_ADMIN.name())
 
                         .anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login")

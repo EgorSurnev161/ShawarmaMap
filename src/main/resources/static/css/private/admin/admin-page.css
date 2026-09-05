@@ -1,0 +1,69 @@
+.admin-dashboard-header {
+    background: #2c3e50;
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
+.admin-dashboard-header h1 { margin: 0; font-size: 28px; }
+.admin-dashboard-header p { margin: 10px 0 0 0; opacity: 0.8; }
+
+/* Кнопка в профиле аккаунта */
+.btn-go-admin {
+    display: inline-block;
+    background: #2c3e50;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.btn-go-admin:hover { background: #34495e; transform: scale(1.02); }
+
+/* Таблица */
+.status-user {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.btn-action-delete {
+    background: #fee2e2;
+    color: #dc2626;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-action-delete:hover { background: #ef4444; color: white; }
+
+/* Сетка для админки */
+.places-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.badge-user {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.badge-admin {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+}

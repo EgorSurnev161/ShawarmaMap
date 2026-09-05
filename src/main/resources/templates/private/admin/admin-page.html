@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель управления - ShawarmaMap</title>
+    <!-- Подключаем все стили -->
+    <link rel="stylesheet" th:href="@{/css/fragments/header-fragment.css}">
+    <link rel="stylesheet" th:href="@{/css/fragments/place-shawarma-card-fragment.css}">
+    <link rel="stylesheet" th:href="@{/css/private/account-page.css}">
+    <link rel="stylesheet" th:href="@{/css/private/admin-page.css}">
+    <!-- Иконки для кнопок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<!-- Вставка хедера -->
+<div th:replace="~{fragments/header-fragment :: header}"></div>
+
+<main class="account-container">
+
+    <!-- Ссылка назад в профиль -->
+    <div class="back-nav">
+        <a th:href="@{/account}">← Вернуться в мой профиль</a>
+    </div>
+
+    <!-- Динамический заголовок (меняется если SUPER_ADMIN) -->
+    <header class="admin-dashboard-header"
+         th:classappend="${#authorization.expression('hasRole(''SUPER_ADMIN'')')} ? 'super-admin-bg' : ''">
+        <div class="header-text">
+            <h1 th:text="${user.role.name() == 'SUPER_ADMIN'} ? 'КОНСОЛЬ СУПЕР-АДМИНИСТРАТОРА' : 'ПАНЕЛЬ МОДЕРАЦИИ'">Панель</h1>
+            <p>Вы вошли как: <strong th:text="${user.name}">Имя</strong> | Роль: <span th:text="${user.role}">ROLE</span></p>
+        </div>
+        <div class="header-stats">
+            <div class="mini-stat">
+                <span class="stat-num" th:text="${#lists.size(candidatesToDelete)}">0</span>
+                <span class="stat-desc">Объектов контроля</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- СЕКЦИЯ 1: УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ -->
+    <section class="user-content">
+        <div class="section-header">
+            <h2>👥 Управление аккаунтами</h2>
+        </div>
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Пользователь</th>
+                    <th>Email</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="candidate : ${candidatesToDelete}">
+                    <td th:text="${candidate.id}">1</td>
+                    <td th:text="${candidate.name}">Имя</td>
+                    <td th:text="${candidate.email}">email@mail.com</td>
+                    <td>
+                        <!-- Цветные бейджи для ролей -->
+                        <span th:class="${candidate.role.name() == 'ADMIN'} ? 'badge badge-admin' : 'badge badge-user'"
+                              th:text="${candidate.role}">ROLE</span>
+                    </td>
+                    <td class="table-actions">
+
+                        <!-- Кнопка ПОВЫСИТЬ (Только для SuperAdmin и только если это User) -->
+                        <form th:if="${candidate.role.name() == 'USER'}"
+                              th:action="@{/super-admin/promote-user}" method="post"
+                              sec:authorize="hasRole('SUPER_ADMIN')">
+                            <input type="hidden" name="id" th:value="${candidate.id}">
+                            <button type="submit" class="btn-circle btn-promote" title="Назначить администратором">
+                                <i class="fas fa-user-shield"></i>
+                            </button>
+                        </form>
+
+                        <!-- Кнопка ПОНИЗИТЬ (Только для SuperAdmin и только если это Admin) -->
+                        <form th:if="${candidate.role.name() == 'ADMIN'}"
+                              th:action="@{/super-admin/demote-user}" method="post"
+                              sec:authorize="hasRole('SUPER_ADMIN')">
+                            <input type="hidden" name="id" th:value="${candidate.id}">
+                            <button type="submit" class="btn-circle btn-demote" title="Разжаловать до пользователя">
+                                <i class="fas fa-user-minus"></i>
+                            </button>
+                        </form>
+
+                        <!-- Кнопка УДАЛЕНИЯ (Видна всем модераторам для всех в списке) -->
+                        <form th:action="@{/admin/delete-user}" method="post"
+                              onsubmit="return confirm('Удалить пользователя и ВСЕ его данные?')">
+                            <input type="hidden" name="id" th:value="${candidate.id}">
+                            <button type="submit" class="btn-circle btn-delete" title="Удалить аккаунт">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="empty-state" th:if="${#lists.isEmpty(candidatesToDelete)}">
+                Список пользователей пуст.
+            </div>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ 2: УПРАВЛЕНИЕ ЗАВЕДЕНИЯМИ -->
+    <section class="user-content">
+        <div class="section-header">
+            <h2>🌍 Все заведения на карте</h2>
+        </div>
+        <div class="places-grid" th:if="${not #lists.isEmpty(places)}">
+            <div th:each="p : ${places}">
+                <!-- showDelete=true позволяет админу управлять контентом -->
+                <div th:replace="~{fragments/place-shawarma-card-fragment :: placeCard(place=${p}, showDelete=true)}"></div>
+            </div>
+        </div>
+        <div class="empty-state" th:if="${#lists.isEmpty(places)}">
+            Активных заведений нет.
+        </div>
+    </section>
+
+</main>
+</body>
+</html>

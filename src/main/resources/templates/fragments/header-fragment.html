@@ -15,12 +15,14 @@
             <!-- Если хочешь, чтобы видели все, просто убери sec:authorize -->
             <a th:href="@{/account/add-place}" class="btn-add" sec:authorize="isAuthenticated()">+ Добавить место</a>
 
+            <a th:href="@{/admin}" class="btn-admin-link" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')">🛠 Админка</a>
+
             <!-- Если пользователь НЕ авторизован (Anonymous) -->
             <a th:href="@{/login}" sec:authorize="isAnonymous()">Войти</a>
 
             <!-- Если пользователь авторизован (Authenticated) -->
             <div class="user-menu" sec:authorize="isAuthenticated()">
-                <a th:href="@{/account}" class="btn-account">Аккаунт</a>
+                <a th:href="@{/account}" class="btn-account">Профиль</a>
                 <!-- Дополнительно можно добавить кнопку Выход -->
                 <form th:action="@{/logout}" method="post" style="display: inline;">
                     <button type="submit" class="btn-logout">Выйти</button>

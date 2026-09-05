@@ -105,4 +105,8 @@ public class User {
     public void setShawarmaPlaces(List<ShawarmaPlace> shawarmaPlaces) {
         this.shawarmaPlaces = shawarmaPlaces;
     }
+
+    public boolean isThisRole(UserRole role) {
+        return this.role == role;
+    }
 }
