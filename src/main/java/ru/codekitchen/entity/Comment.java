@@ -19,11 +19,11 @@ public class Comment {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "place_id")
     private ShawarmaPlace shawarmaPlace;
 
@@ -33,6 +33,12 @@ public class Comment {
     public Comment(LocalDateTime date, User user, String text, ShawarmaPlace shawarmaPlace) {
         this.shawarmaPlace = shawarmaPlace;
         this.date = date;
+        this.user = user;
+        this.text = text;
+    }
+    public Comment(User user, String text, ShawarmaPlace shawarmaPlace) {
+        this.shawarmaPlace = shawarmaPlace;
+        this.date = LocalDateTime.now();
         this.user = user;
         this.text = text;
     }

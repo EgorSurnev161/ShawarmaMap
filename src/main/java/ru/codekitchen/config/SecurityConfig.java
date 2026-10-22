@@ -3,6 +3,7 @@ package ru.codekitchen.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,7 +39,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
-                        .requestMatchers("/", "/login", "/registration", "/error", "/place/**").permitAll()
+                        .requestMatchers("/", "/login", "/registration", "/error").permitAll()
+
+                        .requestMatchers(HttpMethod.POST,"/place/*/add-comment" ).authenticated()
+                        .requestMatchers(HttpMethod.POST,"/place/*/delete-comment" ).hasAnyRole(UserRole.ADMIN.name(),UserRole.SUPER_ADMIN.name())
+
+                        .requestMatchers(HttpMethod.GET,"/place/**" ).permitAll()
 
                         .requestMatchers( "/account/**").hasAnyRole(UserRole.USER.name(), UserRole.ADMIN.name(), UserRole.SUPER_ADMIN.name())
 

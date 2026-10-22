@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!-- ИСПРАВЛЕНО ЗДЕСЬ -->
 <head>
     <meta charset="UTF-8">
     <title>Детали места - ShawarmaMap</title>
@@ -25,28 +26,41 @@
     <section class="comments-section">
         <h2>Отзывы клиентов</h2>
 
-        <!-- Форма добавления комментария (заглушка) -->
-        <div class="comment-form">
-            <textarea placeholder="Поделитесь своим мнением..."></textarea>
-            <button class="btn-send">Отправить отзыв</button>
-        </div>
+        <!-- ИСПРАВЛЕНА ФОРМА ДОБАВЛЕНИЯ КОММЕНТАРИЯ -->
+        <form class="comment-form"
+              th:action="@{/place/{id}/add-comment(id=${place.id})}"
+              method="post">
+            <textarea name="comment" placeholder="Поделитесь своим мнением..." required></textarea>
+            <button type="submit" class="btn-send">Отправить отзыв</button>
+        </form>
 
-        <!-- Список комментариев (заглушки) -->
-        <div class="comments-list">
-            <div class="comment-item">
+        <!-- Список комментариев -->
+        <div class="comments-list" th:if="${!comments.isEmpty()}">
+            <div class="comment-item" th:each="c : ${comments}">
                 <div class="comment-meta">
-                    <strong>Иван Иванов</strong> • <span>22.08.2023</span>
-                </div>
-                <p class="comment-text">Самый лучший соус в городе! Обязательно вернусь еще раз.</p>
-            </div>
+                    <strong th:text="${c.user.name}">Имя</strong> •
+                    <span th:text="${#temporals.format(c.date, 'dd.MM.yyyy')}">дата</span>
 
-            <div class="comment-item">
-                <div class="comment-meta">
-                    <strong>Марина С.</strong> • <span>20.08.2023</span>
+                    <!-- Форма удаления (скрыта для обычных юзеров) -->
+                    <form sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')"
+                          th:action="@{/place/{pId}/delete-comment(pId=${place.id})}"
+                          method="post"
+                          style="display: inline-block; margin-left: 10px;">
+
+                        <!-- Скрытое поле с ID комментария -->
+                        <input type="hidden" name="commentId" th:value="${c.id}" />
+
+                        <button type="submit" class="btn-delete"
+                                style="color: red; cursor: pointer; background: none; border: none; font-size: 14px;"
+                                onclick="return confirm('Вы уверены, что хотите удалить этот комментарий?')">
+                            ✖ Удалить
+                        </button>
+                    </form>
                 </div>
-                <p class="comment-text">Мясо суховато, но порция огромная. На четверочку.</p>
+                <p class="comment-text" th:text="${c.text}">текст</p>
             </div>
         </div>
+        <p th:if="${comments.isEmpty()}">Пока нет отзывов — будьте первым!</p>
     </section>
 </main>
 </body>
