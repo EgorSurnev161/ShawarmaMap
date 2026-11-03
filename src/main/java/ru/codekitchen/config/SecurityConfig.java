@@ -41,7 +41,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/", "/login", "/registration", "/error").permitAll()
 
-                        .requestMatchers(HttpMethod.POST,"/place/*/add-comment" ).authenticated()
+                        .requestMatchers(HttpMethod.POST,"/place/*/add-comment",  "/place/*/add-like").authenticated()
                         .requestMatchers(HttpMethod.POST,"/place/*/delete-comment" ).hasAnyRole(UserRole.ADMIN.name(),UserRole.SUPER_ADMIN.name())
 
                         .requestMatchers(HttpMethod.GET,"/place/**" ).permitAll()

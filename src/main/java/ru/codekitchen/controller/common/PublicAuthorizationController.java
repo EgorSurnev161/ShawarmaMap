@@ -26,7 +26,7 @@ public class PublicAuthorizationController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
     @Autowired
     public PublicAuthorizationController(UserService userService,  PasswordEncoder passwordEncoder) {

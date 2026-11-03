@@ -17,8 +17,17 @@
         <p class="full-address">📍 [[${place.city}]], [[${place.address}]]</p>
 
         <div class="main-stats">
-            <button class="stat-btn like-btn">👍 [[${place.numberOfLikes}]]</button>
-            <button class="stat-btn dislike-btn">👎 [[${place.numberOfDislikes}]]</button>
+            <!-- Форма для Лайка -->
+            <form th:action="@{/place/{id}/add-like(id=${place.id})}" method="post" style="display: inline;">
+                <input type="hidden" name="switchN" value="true"/>
+                <button type="submit" class="stat-btn like-btn">👍 [[${place.numberOfLikes}]]</button>
+            </form>
+
+            <!-- Форма для Дизлайка -->
+            <form th:action="@{/place/{id}/add-like(id=${place.id})}" method="post" style="display: inline;">
+                <input type="hidden" name="switchN" value="false"/>
+                <button type="submit" class="stat-btn dislike-btn">👎 [[${place.numberOfDislikes}]]</button>
+            </form>
         </div>
     </section>
 

@@ -13,6 +13,7 @@ import ru.codekitchen.entity.Comment;
 import ru.codekitchen.entity.ShawarmaPlace;
 import ru.codekitchen.entity.User;
 import ru.codekitchen.service.CommentService;
+import ru.codekitchen.service.LikePlaceService;
 import ru.codekitchen.service.ShawarmaPlaceService;
 import ru.codekitchen.service.UserService;
 
@@ -24,12 +25,14 @@ public class ShawarmaPlaceController {
     private final ShawarmaPlaceService shawarmaPlaceService;
     private final UserService userService;
     private final CommentService commentService;
+    private final LikePlaceService likePlaceService;
 
     @Autowired
-    public ShawarmaPlaceController(ShawarmaPlaceService shawarmaPlaceService, UserService userService, CommentService commentService) {
+    public ShawarmaPlaceController(ShawarmaPlaceService shawarmaPlaceService, UserService userService, CommentService commentService, LikePlaceService likePlaceService) {
         this.shawarmaPlaceService = shawarmaPlaceService;
         this.userService = userService;
         this.commentService = commentService;
+        this.likePlaceService = likePlaceService;
     }
 
     @GetMapping("/place/{id}")
@@ -49,9 +52,6 @@ public class ShawarmaPlaceController {
             return "redirect:/place/" + id;
         }
         User user = userService.getCurrentUser();
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
         ShawarmaPlace place = shawarmaPlaceService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));;
 
@@ -67,5 +67,16 @@ public class ShawarmaPlaceController {
 
         commentService.deleteById(commentId);
         return "redirect:/place/" + placeId;
+    }
+
+    @PostMapping("/place/{placeId}/add-like")
+    public String addLike(@PathVariable("placeId") int placeId,
+                          @RequestParam("switchN") Boolean switchN){
+        ShawarmaPlace shawarmaPlace = shawarmaPlaceService.findById(placeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
+        User user = userService.getCurrentUser();
+
+        likePlaceService.save(user, shawarmaPlace, switchN);
+        return  "redirect:/place/" + placeId;
     }
 }

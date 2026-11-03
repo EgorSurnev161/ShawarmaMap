@@ -20,14 +20,11 @@
 
 <main class="content-container">
     <div class="places-grid">
-
-        <div class="places-grid">
             <!-- Цикл по списку places из модели -->
-            <div th:each="p : ${places}">
+        <div th:each="p : ${places}" class="place-card">
                 <div th:replace="~{fragments/place-shawarma-card-fragment :: placeCard(place=${p}, showDelete=false)}"></div>
             </div>
         </div>
-    </div>
 </main>
 
 </body>
